@@ -1,0 +1,5 @@
+[repo-aitest]
+name=OpenEuler RPM Repository
+baseurl=https://raw.githubusercontent.com/shuyingbanbo/repo-aitest/main/dist
+enabled=1
+gpgcheck=0
