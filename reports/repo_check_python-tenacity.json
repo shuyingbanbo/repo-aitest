@@ -1,0 +1,9 @@
+{
+  "platform_name": "GitHub",
+  "platform_type": "github",
+  "is_mainstream": true,
+  "days_inactive": 5,
+  "last_updated": "2026-05-01",
+  "blocking": false,
+  "message": "GitHub 仓库 5 天前有更新，活跃，通过"
+}

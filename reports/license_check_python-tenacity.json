@@ -1,0 +1,14 @@
+{
+  "license_ids": [
+    "Apache-2.0"
+  ],
+  "category": "permissive",
+  "source": "pyproject.toml, LICENSE",
+  "blocking": false,
+  "needs_ai_fallback": false,
+  "final_blocking": false,
+  "message": "Apache-2.0 为宽松许可证，直接通过",
+  "all_categories": [
+    "permissive"
+  ]
+}
