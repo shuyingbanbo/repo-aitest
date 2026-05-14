@@ -1,0 +1,34 @@
+{
+  "pkgname": "toml11",
+  "version": "4.4.0",
+  "stage": "lint",
+  "round": 1,
+  "verdict": "WARN",
+  "issues": [
+    {
+      "rule_id": "LINT",
+      "severity": "W",
+      "location": "toml11.spec",
+      "message": "no-buildroot-tag",
+      "suggestion": ""
+    },
+    {
+      "rule_id": "LINT",
+      "severity": "W",
+      "location": "toml11.spec",
+      "message": "no-%check-section",
+      "suggestion": ""
+    },
+    {
+      "rule_id": "LINT",
+      "severity": "W",
+      "location": "toml11.spec",
+      "message": "invalid-url Source0: toml11-4.4.0.tar.gz",
+      "suggestion": ""
+    }
+  ],
+  "report_path": "/root/.claude/skills/rpm-repo-github/reports/review_toml11_lint.md",
+  "e_count": 0,
+  "w_count": 3,
+  "i_count": 0
+}

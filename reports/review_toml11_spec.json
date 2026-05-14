@@ -1,0 +1,12 @@
+{
+  "pkgname": "toml11",
+  "version": "4.4.0",
+  "stage": "spec",
+  "round": 1,
+  "verdict": "PASS",
+  "issues": [],
+  "report_path": "/root/.claude/skills/rpm-repo-github/reports/review_toml11_spec.md",
+  "e_count": 0,
+  "w_count": 0,
+  "i_count": 0
+}

@@ -1,0 +1,34 @@
+{
+  "pkgname": "magic_enum",
+  "version": "0.9.8",
+  "stage": "lint",
+  "round": 1,
+  "verdict": "WARN",
+  "issues": [
+    {
+      "rule_id": "LINT",
+      "severity": "W",
+      "location": "magic_enum.spec",
+      "message": "no-buildroot-tag",
+      "suggestion": ""
+    },
+    {
+      "rule_id": "LINT",
+      "severity": "W",
+      "location": "magic_enum.spec",
+      "message": "no-%check-section",
+      "suggestion": ""
+    },
+    {
+      "rule_id": "LINT",
+      "severity": "W",
+      "location": "magic_enum.spec",
+      "message": "invalid-url Source0: magic_enum-0.9.8.tar.gz",
+      "suggestion": ""
+    }
+  ],
+  "report_path": "/root/.claude/skills/rpm-repo-github/reports/review_magic_enum_lint.md",
+  "e_count": 0,
+  "w_count": 3,
+  "i_count": 0
+}
