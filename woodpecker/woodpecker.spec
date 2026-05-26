@@ -1,5 +1,4 @@
 %global debug_package %{nil}
-%global __requires_exclude_from ^%{_datadir}/woodpecker/.*
 
 Name:           woodpecker
 Version:        0.15.0
@@ -11,75 +10,69 @@ Source0:        %{name}-%{version}.tar.gz
 
 BuildRequires:  golang >= 1.16
 BuildRequires:  gcc
-BuildRequires:  gcc-c++
+BuildRequires:  glibc-devel
 BuildRequires:  sqlite-devel
+BuildRequires:  git
 
 %description
 Woodpecker is a community fork of the Drone CI system.
-It is a simple CI engine with great extensibility.
-
-%package server
-Summary:        Woodpecker CI server
-
-%description server
-The Woodpecker CI server component.
+It provides a simple yet powerful CI/CD pipeline runner.
+Note: this package is built without the web UI frontend.
 
 %package agent
 Summary:        Woodpecker CI agent
 
 %description agent
-The Woodpecker CI agent component that runs pipeline steps.
+The Woodpecker CI agent component that runs pipeline jobs.
+
+%package server
+Summary:        Woodpecker CI server
+
+%description server
+The Woodpecker CI server component that manages pipelines.
+Note: built without pre-compiled web UI frontend.
 
 %package cli
-Summary:        Woodpecker CI command-line client
+Summary:        Woodpecker CI CLI tool
 
 %description cli
-Command-line client for interacting with a Woodpecker CI server.
+The Woodpecker CI command line interface.
 
 %prep
-%autosetup -n %{name}-%{version}
+%setup -q
+# Create placeholder dist directory for go:embed to satisfy embed constraint
+mkdir -p web/dist
+echo '<!DOCTYPE html><html><body>Woodpecker CI</body></html>' > web/dist/index.html
 
 %build
-# Create placeholder web dist so go:embed dist/* is satisfied without a frontend build
-mkdir -p web/dist
-touch web/dist/.keep
-
-export GOFLAGS="-buildvcs=false -mod=vendor"
-export GONOSUMCHECK=*
+export CGO_ENABLED=1
+export GOPROXY=off
+export GOFLAGS=-buildvcs=false
 export GONOSUMDB=*
-export VERSION="%{version}"
-LDFLAGS="-s -w -extldflags -static -X github.com/woodpecker-ci/woodpecker/version.Version=${VERSION}"
+LDFLAGS="-s -w -X github.com/woodpecker-ci/woodpecker/version.Version=%{version}"
 
-# Build agent (CGO_ENABLED=0)
-CGO_ENABLED=0 go build -ldflags "${LDFLAGS}" \
-    -o woodpecker-agent github.com/woodpecker-ci/woodpecker/cmd/agent
-
-# Build cli (CGO_ENABLED=0)
-CGO_ENABLED=0 go build -ldflags "${LDFLAGS}" \
-    -o woodpecker-cli github.com/woodpecker-ci/woodpecker/cmd/cli
-
-# Build server (CGO_ENABLED=1, needs sqlite)
-CGO_ENABLED=1 go build -ldflags "-s -w -X github.com/woodpecker-ci/woodpecker/version.Version=${VERSION}" \
-    -o woodpecker-server github.com/woodpecker-ci/woodpecker/cmd/server
+go build -ldflags "${LDFLAGS}" -o woodpecker-agent ./cmd/agent/
+go build -ldflags "${LDFLAGS}" -o woodpecker-server ./cmd/server/
+go build -ldflags "${LDFLAGS}" -o woodpecker-cli ./cmd/cli/
 
 %install
-install -Dm0755 woodpecker-server %{buildroot}%{_bindir}/woodpecker-server
-install -Dm0755 woodpecker-agent  %{buildroot}%{_bindir}/woodpecker-agent
-install -Dm0755 woodpecker-cli    %{buildroot}%{_bindir}/woodpecker-cli
+install -D -m 0755 woodpecker-agent %{buildroot}%{_bindir}/woodpecker-agent
+install -D -m 0755 woodpecker-server %{buildroot}%{_bindir}/woodpecker-server
+install -D -m 0755 woodpecker-cli %{buildroot}%{_bindir}/woodpecker
 
-%files server
-%license LICENSE
-%{_bindir}/woodpecker-server
-
-%files agent
-%license LICENSE
-%{_bindir}/woodpecker-agent
-
-%files cli
+%files
 %license LICENSE
 %doc README.md
-%{_bindir}/woodpecker-cli
+
+%files agent
+%{_bindir}/woodpecker-agent
+
+%files server
+%{_bindir}/woodpecker-server
+
+%files cli
+%{_bindir}/woodpecker
 
 %changelog
-* Fri May 22 2026 OpenEuler Packager <packager@openeuler.org> - 0.15.0-1
-- Initial package
+* Tue May 26 2026 Builder <builder@openeuler.org> - 0.15.0-1
+- Initial package (without pre-compiled web UI)
